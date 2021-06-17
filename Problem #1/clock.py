@@ -38,9 +38,30 @@ num_to_seg = {
     '0': {1, 2, 3, 5, 6, 7}
 }
 
+#Concat display together 
 def concat_display(display,concat_display):
     for i in range(len(display)):
         display[i] += concat_display[i]
+    return display
+
+#Check if time is valid and return __:__:__ if not valid
+def get_validtime(time):
+    timelist = time.split(':')
+    if len(timelist) == 3:
+        if 0 <= int(timelist[1]) <= 59 and 0 <= int(timelist[2]) <= 59:
+            return time
+    return "__:__:__"
+
+#Get display for input time
+def get_timedisplay(time):
+    validtime = get_validtime(time)
+    display = ["", "", ""]
+    for d in validtime:
+        if d == ":":
+            concat_display(display, [" ", ".", "."])
+        else:
+            concat_display(display, get_display(num_to_seg[d]))
+        concat_display(display, [" ", " ", " "])
     return display
 
 #Print display list
@@ -48,8 +69,7 @@ def print_display(display):
     for line in display:
         print(line)
 
-display = ["","",""]
-for i in range(10):
-    concat_display(display, get_display(num_to_seg[str(i)]))
-print_display(display)
 
+#Get input and display
+time = input("input: ")
+print_display(get_timedisplay(time))
