@@ -1,0 +1,265 @@
+swagger: "2.0"
+info:
+  description: "This is just a structure for endpoint"
+  version: "0.0.0"
+  title: "SDGU Employee"
+tags:
+- name: "user"
+  description: "Operations about employee"
+paths:
+  /user:
+    post:
+      tags:
+      - "user"
+      summary: "Add employee to system"
+      description: "This can only be done by the HR."
+      operationId: "createUser"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Created employee object"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        "200":
+          description: "successful operation"
+        "401":
+          description: "User is not login"
+        "403":
+          description: "User is not HR"
+      security:
+        - cookieAuth: []
+  /user/login:
+    get:
+      tags:
+      - "user"
+      summary: "Logs employee into the system"
+      description: ""
+      operationId: "loginUser"
+      parameters:
+      - name: "id"
+        in: "query"
+        description: "The id for login"
+        required: true
+        type: "string"
+      - name: "password"
+        in: "query"
+        description: "The password for login"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: >
+            Successfully authenticated.
+            The token is returned in a cookie named `SESSIONJWT`. You need to include this cookie in subsequent requests.
+          headers:
+            Set-Cookie:
+              type: string
+        "400":
+          description: "Invalid id/password"
+  /user/logout:
+    get:
+      tags:
+      - "user"
+      summary: "Logs out current logged in employee session"
+      description: ""
+      operationId: "logoutUser"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "successful operation"
+  /user/find/{field}/{data}:
+    get:
+      tags:
+      - "user"
+      summary: "Get employee by data in field"
+      description: "This can only be done by the HR."
+      operationId: "getUserByData"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "field"
+        in: "path"
+        description: "The field that needs to be search in "
+        required: true
+        type: "string"
+      - name: "data"
+        in: "path"
+        description: "The data of user for corresponding field that needs to be fetched."
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/User"
+        "400":
+          description: "Invalid field"
+        "401":
+          description: "User is not login"
+        "403":
+          description: "User is not HR"
+        "404":
+          description: "Employee not found"
+      security:
+        - cookieAuth: []
+  /users:
+    get:
+      tags:
+      - "user"
+      summary: "Get all users data"
+      description: "This can only be done by the HR."
+      operationId: "getAllUsers"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/User"
+        "401":
+          description: "User is not login"
+        "403":
+          description: "User is not HR"
+      security:
+        - cookieAuth: []
+  /user/pass:
+    put:
+      tags:
+      - "user"
+      summary: "Updated user password"
+      description: "This can only be done by the logged in user."
+      operationId: "updateUserPass"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Updated password object"
+        schema:
+          type: object
+          properties:
+            password:
+              type: string
+          required:
+          - password
+      responses:
+        "200":
+          description: "successful operation"
+        "401":
+          description: "User is not login"
+      security:
+        - cookieAuth: []
+  /user/{id}:
+    put:
+      tags:
+      - "user"
+      summary: "Updated user"
+      description: "This can only be done by the HR."
+      operationId: "updateUser"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "id that need to be updated"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Updated user object"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        "200":
+          description: "successful operation"
+        "400":
+          description: "Invalid id supplied"
+        "401":
+          description: "User is not login"
+        "403":
+          description: "User is not HR"
+        "404":
+          description: "Employee not found"
+      security:
+        - cookieAuth: []
+    delete:
+      tags:
+      - "user"
+      summary: "Delete user"
+      description: "This can only be done by the HR."
+      operationId: "deleteUser"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "The employee's id that needs to be deleted"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+        "400":
+          description: "Invalid id supplied"
+        "401":
+          description: "User is not login"
+        "403":
+          description: "User is not HR"
+        "404":
+          description: "Employee not found"
+      security:
+        - cookieAuth: []
+  /user/profile:
+    get:
+      tags:
+      - "user"
+      summary: "Get user's data"
+      description: "This can only be done by the logged in user."
+      operationId: "getProfile"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/User"
+        "401":
+          description: "User is not login"
+      security:
+        - cookieAuth: []  
+securityDefinitions:
+  cookieAuth:
+    type: "apiKey"
+    in: "header"
+    name: "SESSIONJWT"
+definitions:
+  User:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      password:
+        type: "string"
+      firstName:
+        type: "string"
+      salary:
+        type: "integer"
+        format: "int32"
+      email:
+        type: "string"
+      role:
+        type: "string"
+    xml:
+      name: "User"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
