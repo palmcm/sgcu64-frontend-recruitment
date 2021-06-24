@@ -47,3 +47,10 @@
 # Applicant Section
 
 ตั้งแต่ส่วนนี้ลงไป เป็นส่วนที่ผู้สมัครสามารถแก้ไขได้ตามอัธยาศัย ซึ่งอาจจะเป็นข้อสันนิษฐานหรือไอเดียเพิ่มเติมก็ได้
+
+แก้ไข: ทำทุก input เป็น required
+
+ช่องทาง Social ไม่ได้ระบุมาให้ จะขอ Assumtion ดังนี้
+[Instagram](https://youtu.be/IrrF_bUE8yc)
+[Facebook](https://youtu.be/WGgEFoI9MhE)
+[Twitter](https://youtu.be/z1W4c7ym49Y)
