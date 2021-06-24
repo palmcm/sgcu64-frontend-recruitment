@@ -131,3 +131,8 @@ Swagger UI
 # Applicant Section
 
 ตั้งแต่ส่วนนี้ลงไป เป็นส่วนที่ผู้สมัครสามารถแก้ไขได้ตามอัธยาศัย ซึ่งอาจจะเป็นข้อสันนิษฐานหรือไอเดียเพิ่มเติมก็ได้
+
+Using Swagger
+
+Can be open with https://editor.swagger.io/
+And import file to generate UI
